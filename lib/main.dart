@@ -23,7 +23,7 @@ class _MainState extends State<Main> {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.teal,
-              brightness: isDark ? Brightness.light : Brightness.dark,
+              brightness: isDark ? Brightness.dark : Brightness.light,
             ),
           ),
           home: WidgetTree(),
