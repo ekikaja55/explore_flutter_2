@@ -11,7 +11,11 @@ class HomePage extends StatelessWidget {
       padding: EdgeInsetsGeometry.all(20.0),
       child: Column(
         children: [
-          HeroWidget(),
+          HeroWidget(
+            title: "Tutur.id",
+            tag: "hero1",
+            imgUrl: "assets/images/rei_1.jpeg",
+          ),
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 20.0),
