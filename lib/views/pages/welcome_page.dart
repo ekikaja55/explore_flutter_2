@@ -1,5 +1,5 @@
 import 'package:explore_flutter_2/views/pages/login_page.dart';
-import 'package:explore_flutter_2/views/widget_tree.dart';
+import 'package:explore_flutter_2/views/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -29,11 +29,11 @@ class WelcomePage extends StatelessWidget {
             ),
             FilledButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return WidgetTree();
+                      return OnboardingPage();
                     },
                   ),
                 );

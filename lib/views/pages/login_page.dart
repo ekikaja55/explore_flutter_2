@@ -1,6 +1,6 @@
 import 'package:explore_flutter_2/views/widget_tree.dart';
-import 'package:explore_flutter_2/views/widgets/hero_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _controllerName = TextEditingController();
   TextEditingController _controllerPass = TextEditingController();
-  String _confirmedName = "ekikaja55";
+  String _confirmedName = "123";
   String _confirmedPass = "123";
 
   bool _isObscured = true;
@@ -41,11 +41,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             spacing: 20.0,
             children: [
-              HeroWidget(
-                title: "Login",
-                imgUrl: "assets/images/rei_2.jpeg",
-                tag: "hero2",
-              ),
+              Lottie.asset("assets/lotties/login.json"),
               TextField(
                 controller: _controllerName,
                 decoration: InputDecoration(

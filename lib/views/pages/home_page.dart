@@ -1,4 +1,6 @@
 import 'package:explore_flutter_2/data/constants.dart';
+import 'package:explore_flutter_2/views/pages/course_page.dart';
+import 'package:explore_flutter_2/views/widgets/container_widget.dart';
 import 'package:explore_flutter_2/views/widgets/hero_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -8,28 +10,22 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.all(20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: [
           HeroWidget(
             title: "Tutur.id",
             tag: "hero1",
             imgUrl: "assets/images/rei_1.jpeg",
+            nextPage: CoursePage(),
           ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Card Basic Layout", style: KTextStyle.titleTealText),
-                    Text("Card Description", style: KTextStyle.descText),
-                  ],
-                ),
-              ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: KCardData.length,
+              itemBuilder: (context, index) {
+                final data = KCardData[index];
+                return ContainerWidget(title: data.title, desc: data.desc);
+              },
             ),
           ),
         ],
