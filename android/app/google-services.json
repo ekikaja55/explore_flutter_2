@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "648792069849",
+    "project_id": "ekik-b52fa",
+    "storage_bucket": "ekik-b52fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648792069849:android:38c1cd008e8b4313d710c8",
+        "android_client_info": {
+          "package_name": "com.example.explore_flutter_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKNTm7IDI75dLibmLdXDcOtDPh446w4OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
