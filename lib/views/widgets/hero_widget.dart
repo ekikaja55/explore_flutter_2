@@ -15,46 +15,48 @@ class HeroWidget extends StatelessWidget {
   final Widget? nextPage;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: nextPage != null
-          ? () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return nextPage!;
-                  },
-                ),
-              );
-            }
-          : null,
-      child: Stack(
-        alignment: AlignmentGeometry.center,
-        children: [
-          Hero(
+    return Stack(
+      alignment: AlignmentGeometry.center,
+      children: [
+        AspectRatio(
+          aspectRatio: 19 / 6,
+          child: Hero(
             tag: tag,
             child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(20.0),
+              borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
                 imgUrl,
                 color: Colors.teal,
                 colorBlendMode: BlendMode.darken,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          FittedBox(
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white70,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 50.0,
-                fontSize: 50.0,
-              ),
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20.0),
+              onTap: nextPage != null
+                  ? () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => nextPage!),
+                    )
+                  : null,
             ),
           ),
-        ],
-      ),
+        ),
+        Text(
+          title,
+          style: TextStyle(
+            color: Colors.white70,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 10.0,
+            fontSize: 40.0,
+          ),
+        ),
+      ],
     );
   }
 }
