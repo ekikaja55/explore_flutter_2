@@ -70,6 +70,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '648792069849',
     projectId: 'ekik-b52fa',
     storageBucket: 'ekik-b52fa.firebasestorage.app',
+    androidClientId: '648792069849-gn2jfn8kqqe441joa7d2fpav8poching.apps.googleusercontent.com',
+    iosClientId: '648792069849-kk1jg11tvf9o6dgf7mo6gauqbklgp4j7.apps.googleusercontent.com',
     iosBundleId: 'com.example.exploreFlutter2',
   );
+
 }

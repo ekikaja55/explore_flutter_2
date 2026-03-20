@@ -1,4 +1,5 @@
 import 'package:explore_flutter_2/views/widget_tree.dart';
+import 'package:explore_flutter_2/views/widgets/google_sign_in_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -10,22 +11,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerPass = TextEditingController();
-  String _confirmedName = "123";
-  String _confirmedPass = "123";
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerPass = TextEditingController();
+  final String _confirmedName = "123";
+  final String _confirmedPass = "123";
 
   bool _isObscured = true;
   @override
   void initState() {
-    // TODO: implement initState
-    print("Triggering init state");
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _controllerName.dispose();
     _controllerPass.dispose();
     super.dispose();
@@ -82,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Text("Login"),
               ),
+              GoogleSignInWidget(),
             ],
           ),
         ),

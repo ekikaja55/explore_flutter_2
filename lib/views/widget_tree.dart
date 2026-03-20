@@ -27,24 +27,24 @@ class WidgetTree extends StatelessWidget {
           context: context,
           builder: (context) => AlertDialog(
             title: Text("Yakin Keluar"),
-            content: Text("Kamu harus login lagi loh"),
+            content: Text("Kamu Keluar App Loh"),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text("Yakin"),
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text("Batal"),
               ),
               TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text("Batal"),
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text("Yakin"),
               ),
             ],
           ),
         );
 
-        if (!context.mounted) return;
 
         if (shouldPop == true) {
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          SystemNavigator.pop();
         }
       },
       child: Scaffold(

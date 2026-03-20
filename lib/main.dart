@@ -1,5 +1,7 @@
 import 'package:explore_flutter_2/data/notifiers.dart';
+import 'package:explore_flutter_2/services/auth_service.dart';
 import 'package:explore_flutter_2/views/pages/welcome_page.dart';
+import 'package:explore_flutter_2/views/widget_tree.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +33,20 @@ class _MainState extends State<Main> {
               brightness: isDark ? Brightness.dark : Brightness.light,
             ),
           ),
-          home: WelcomePage(),
+          home: StreamBuilder(
+            stream: AuthService().authStateChanges,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              }
+              if (snapshot.hasData) {
+                return const WidgetTree();
+              }
+              return const WelcomePage();
+            },
+          ),
         );
       },
     );

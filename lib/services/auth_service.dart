@@ -1,5 +1,6 @@
 import 'package:explore_flutter_2/utils/my_logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 /// Notes (SOURCE GEMINI):
@@ -45,13 +46,17 @@ class AuthService {
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   // handling login pakai future karena sifatnya async
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     MyLogger().t("sign in 1 -> masuk sign in mulai proses...");
     try {
       MyLogger().t("sign in 2 -> masuk blok try");
-
       // panggil inisiasi ini dari doc nya
-      await _googleSignIn.initialize();
+      await _googleSignIn.initialize(
+        clientId: kIsWeb
+            ? "648792069849-clf3ud7qm5ibervrhb0aa1jt50jmn8vh.apps.googleusercontent.com"
+            : null,
+      );
+
       // mulai proses interaksi dengan google function signIn() udah gaada adanya authenticate()
       final GoogleSignInAccount? googleUser = await _googleSignIn
           .authenticate();
@@ -75,17 +80,36 @@ class AuthService {
         idToken: googleAuth.idToken,
       );
 
-      MyLogger().t("sign in 5 -> isi credential $credential");
+      MyLogger().t("sign in 5 -> isi credential data ke firebase $credential");
 
-      return await _firebaseAuth.signInWithCredential(credential);
-    } catch (e) {
-      MyLogger().e("Error woi: $e");
+      final userCred = await _firebaseAuth.signInWithCredential(credential);
+
+      MyLogger().t(
+        "sign in 6 -> isi user credential setelah daftar ke firebase $userCred",
+      );
+
+      final user = userCred.user;
+
+      MyLogger().t("sign in 7 -> isi final User yang didapat $user");
+
+      return user;
+    } on FirebaseAuthException catch (e) {
+      MyLogger().e("Error woi: ${e.message}");
       return null;
     }
   }
 
-  Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _firebaseAuth.signOut();
+  Future<bool> signOut() async {
+    try {
+      await _googleSignIn.signOut();
+
+      await _firebaseAuth.signOut();
+
+      MyLogger().i("User berhasil logout.");
+      return true;
+    } catch (e) {
+      MyLogger().e("Gagal Logout: $e");
+      return false;
+    }
   }
 }
