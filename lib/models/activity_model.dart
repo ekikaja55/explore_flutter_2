@@ -1,4 +1,4 @@
-class Activity {
+class ActivityModel {
   final String activity;
   final num availability;
   final String type;
@@ -10,7 +10,7 @@ class Activity {
   final String link;
   final String key;
 
-  const Activity({
+  const ActivityModel({
     required this.activity,
     required this.availability,
     required this.type,
@@ -23,7 +23,7 @@ class Activity {
     required this.key,
   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
+  factory ActivityModel.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
         'activity': String activity,
@@ -37,7 +37,7 @@ class Activity {
         'link': String link,
         'key': String key,
       } =>
-        Activity(
+        ActivityModel(
           activity: activity,
           availability: availability.toDouble(),
           type: type,

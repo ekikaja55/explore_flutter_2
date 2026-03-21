@@ -1,3 +1,4 @@
+import 'package:explore_flutter_2/services/base_service.dart';
 import 'package:explore_flutter_2/utils/my_logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -33,17 +34,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 /// perlu pusing mikirin database user sendiri di Express.js.
 ///
 
-class AuthService {
-  // bikin instance nya
-  // di doc GoogleSignIn() gaada adanya langsung tembak instance GoogleSignIn.instance
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-
-  // buat akses user saat ini
-  User? get currentUser => _firebaseAuth.currentUser;
+class AuthService extends BaseService {
+  // buat akses user saat ini sementara begini ini harusnya bisa diubah
+  User? get currentUser => firebaseAuth.currentUser;
 
   // stream data realtime buat cek status login misal pindah halaman mungkin konsepnya kaya prinsip auth me di BE service
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
 
   // handling login pakai future karena sifatnya async
   Future<User?> signInWithGoogle() async {
@@ -51,15 +47,14 @@ class AuthService {
     try {
       MyLogger().t("sign in 2 -> masuk blok try");
       // panggil inisiasi ini dari doc nya
-      await _googleSignIn.initialize(
+      await googleSignIn.initialize(
         clientId: kIsWeb
             ? "648792069849-clf3ud7qm5ibervrhb0aa1jt50jmn8vh.apps.googleusercontent.com"
             : null,
       );
 
       // mulai proses interaksi dengan google function signIn() udah gaada adanya authenticate()
-      final GoogleSignInAccount? googleUser = await _googleSignIn
-          .authenticate();
+      final GoogleSignInAccount? googleUser = await googleSignIn.authenticate();
 
       MyLogger().t("sign in 3 -> isi googleUser $googleUser ");
 
@@ -70,8 +65,7 @@ class AuthService {
       }
 
       // proses authenticate kalo googleUser ga kosong
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
       MyLogger().t("sign in 4 -> isi googleAuth $googleAuth ");
 
@@ -82,7 +76,7 @@ class AuthService {
 
       MyLogger().t("sign in 5 -> isi credential data ke firebase $credential");
 
-      final userCred = await _firebaseAuth.signInWithCredential(credential);
+      final userCred = await firebaseAuth.signInWithCredential(credential);
 
       MyLogger().t(
         "sign in 6 -> isi user credential setelah daftar ke firebase $userCred",
@@ -101,9 +95,9 @@ class AuthService {
 
   Future<bool> signOut() async {
     try {
-      await _googleSignIn.signOut();
+      await googleSignIn.signOut();
 
-      await _firebaseAuth.signOut();
+      await firebaseAuth.signOut();
 
       MyLogger().i("User berhasil logout.");
       return true;

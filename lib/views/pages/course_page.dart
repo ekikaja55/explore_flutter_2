@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:explore_flutter_2/data/classes/activity.dart';
+import 'package:explore_flutter_2/models/activity_model.dart';
 import 'package:explore_flutter_2/views/widgets/hero_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +14,7 @@ class CoursePage extends StatefulWidget {
 
 class _CoursePageState extends State<CoursePage> {
   var logger = Logger(printer: PrettyPrinter());
-  late Future<Activity> futureActivity;
+  late Future<ActivityModel> futureActivity;
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,7 @@ class _CoursePageState extends State<CoursePage> {
     futureActivity = fetchData();
   }
 
-  Future<Activity> fetchData() async {
+  Future<ActivityModel> fetchData() async {
     String uri = "https://bored-api.appbrewery.com/random";
 
     try {
@@ -31,7 +31,7 @@ class _CoursePageState extends State<CoursePage> {
         headers: {'Accept': 'application/json'},
       );
       logger.d(jsonDecode(response.body));
-      return Activity.fromJson(
+      return ActivityModel.fromJson(
         jsonDecode(response.body) as Map<String, dynamic>,
       );
     } catch (e) {
@@ -65,7 +65,7 @@ class _CoursePageState extends State<CoursePage> {
               },
               icon: Icon(Icons.refresh),
             ),
-            FutureBuilder<Activity>(
+            FutureBuilder<ActivityModel>(
               future: futureActivity,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {

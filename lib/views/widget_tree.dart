@@ -6,13 +6,12 @@ import 'package:explore_flutter_2/views/widgets/navbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-List<Widget> pages = [HomePage(), ProfilePage()];
-
 class WidgetTree extends StatelessWidget {
   const WidgetTree({super.key});
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = [const HomePage(), const ProfilePage()];
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -40,7 +39,6 @@ class WidgetTree extends StatelessWidget {
             ],
           ),
         );
-
 
         if (shouldPop == true) {
           // Navigator.of(context).pop();
