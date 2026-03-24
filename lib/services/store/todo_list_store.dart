@@ -11,13 +11,14 @@ class TodoListStore extends BaseService {
         .collection('users')
         .doc(uid)
         .collection('todos')
+        .where('deletedAt', isNull: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
           final items = snapshot.docs
               .map((doc) => TodoListModel.fromFirestore(doc))
               .toList();
-          MyLogger().i("update data diterima isi items : $items");
+          MyLogger().i("update data diterima isi items : ${items.length}");
           return items;
         })
         .handleError((error) {
@@ -27,10 +28,17 @@ class TodoListStore extends BaseService {
 
   // Create Todo
   Future<SystemResponse> addTodo(String taskName) async {
+    final trimmed = taskName.trim();
+    if (trimmed.isEmpty) {
+      return SystemResponse(
+        type: ResponseType.error,
+        msg: "Inputan tidak boleh kosong",
+      );
+    }
     try {
       final newData = TodoListModel(
         id: '',
-        task: taskName,
+        task: trimmed,
         isDone: false,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -85,6 +93,35 @@ class TodoListStore extends BaseService {
     }
   }
 
+  Future<SystemResponse> updateTaskTodo(String docId, String task) async {
+    if (task.trim().isEmpty) {
+      return SystemResponse(
+        type: ResponseType.error,
+        msg: "Inputan tidak boleh kosong",
+      );
+    }
+    try {
+      await db
+          .collection('users')
+          .doc(uid)
+          .collection('todos')
+          .doc(docId)
+          .update({'task': task, 'updatedAt': FieldValue.serverTimestamp()});
+
+      return SystemResponse(
+        type: ResponseType.success,
+        msg: "Berhasil update task TodoList",
+      );
+    } on FirebaseException catch (e) {
+      MyLogger().e("error update task todo : ${e.message}");
+      return SystemResponse(
+        type: ResponseType.error,
+        msg: e.message ?? "Terjadi Kesalahan",
+      );
+    }
+  }
+
+  // delete todo
   Future<SystemResponse> deleteTodo(String docId) async {
     try {
       await db

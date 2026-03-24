@@ -2,6 +2,7 @@ import 'package:explore_flutter_2/data/notifiers.dart';
 import 'package:explore_flutter_2/views/pages/home_page.dart';
 import 'package:explore_flutter_2/views/pages/profile_page.dart';
 import 'package:explore_flutter_2/views/pages/settings_page.dart';
+import 'package:explore_flutter_2/views/pages/todo_list_page.dart';
 import 'package:explore_flutter_2/views/widgets/navbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,11 @@ class WidgetTree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = [const HomePage(), const ProfilePage()];
+    List<Widget> pages = [
+      const HomePage(),
+      const ProfilePage(),
+      const TodoListPage(),
+    ];
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {

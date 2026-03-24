@@ -1,37 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore_flutter_2/models/time_stamp_model.dart';
+import 'package:explore_flutter_2/utils/firestore_extension.dart';
 
-class TodoListModel {
+class TodoListModel extends TimeStampModel {
   final String id;
   final String task;
   final bool isDone;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final DateTime? deletedAt;
 
   TodoListModel({
     required this.id,
     required this.task,
     required this.isDone,
-    required this.createdAt,
-    required this.updatedAt,
-    this.deletedAt,
+    required super.createdAt,
+    required super.updatedAt,
+    super.deletedAt,
   });
 
   // dari firebase ke flutter (serialization) sifatnya asinkron makanya pake factory karena bakalan dipanggil via future
   factory TodoListModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-    Timestamp? createdDate = data['createdAt'] as Timestamp?;
-    Timestamp? updatedDate = data['updatedAt'] as Timestamp?;
-    Timestamp? deletedDate = data['deletedAt'] as Timestamp?;
-
     return TodoListModel(
       id: doc.id,
       task: data['task'] ?? '',
       isDone: data['isDone'] ?? false,
-      createdAt: createdDate?.toDate() ?? DateTime.now(),
-      updatedAt: updatedDate?.toDate() ?? DateTime.now(),
-      deletedAt: deletedDate?.toDate(),
+      createdAt: data.asDateTime('createdAt'),
+      updatedAt: data.asDateTime('updatedAt'),
+      deletedAt: data.asNullableDateTime('deletedAt'),
     );
   }
 

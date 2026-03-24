@@ -1,4 +1,5 @@
 import 'package:explore_flutter_2/services/base_service.dart';
+import 'package:explore_flutter_2/services/store/user_store.dart';
 import 'package:explore_flutter_2/utils/my_logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -85,7 +86,7 @@ class AuthService extends BaseService {
       final user = userCred.user;
 
       MyLogger().t("sign in 7 -> isi final User yang didapat $user");
-
+      await UserStore().saveUserToFirestore(user);
       return user;
     } on FirebaseAuthException catch (e) {
       MyLogger().e("Error woi: ${e.message}");
