@@ -9,9 +9,14 @@ class UserModel extends TimeStampModel {
   final String username;
   final String email;
   final String photoUrl;
-  final UserTier userTier;
+  final String bannerUrl;
+  final String bio;
   final String phoneNum;
-  final bool isRegistered;
+  final String location;
+  final UserTier userTier;
+  final bool isProfileComplete;
+  final DateTime? birthDate;
+  final DateTime? lastPopUpShown;
   final DateTime lastSeen;
 
   UserModel({
@@ -19,32 +24,40 @@ class UserModel extends TimeStampModel {
     required this.username,
     required this.email,
     required this.photoUrl,
-    required this.lastSeen,
+    this.bannerUrl = '',
+    this.bio = '',
+    this.phoneNum = '',
+    this.location = '',
     required this.userTier,
-    required this.phoneNum,
-    required this.isRegistered,
+    this.isProfileComplete = false,
+    this.birthDate,
+    this.lastPopUpShown,
+    required this.lastSeen,
     required super.createdAt,
     required super.updatedAt,
-    super.deletedAt,
   });
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
-    final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>;
     return UserModel(
       uid: doc.id,
       username: data['username'] ?? '',
       email: data['email'] ?? '',
-      photoUrl: data['photoUrl'],
+      photoUrl: data['photoUrl'] ?? '',
+      bannerUrl: data['bannerUrl'] ?? '',
+      bio: data['bio'] ?? '',
+      phoneNum: data['phoneNum'] ?? '',
+      location: data['location'] ?? '',
       userTier: UserTier.values.firstWhere(
         (e) => e.name == data['userTier'],
         orElse: () => UserTier.starter,
       ),
-      phoneNum: data['phoneNum'] ?? '',
-      isRegistered: data['isRegistered'] ?? false,
+      isProfileComplete: data['isProfileComplete'] ?? false,
+      birthDate: data.asNullableDateTime('birthDate'),
+      lastPopUpShown: data.asNullableDateTime('lastPopUpShown'),
       lastSeen: data.asDateTime('lastSeen'),
       createdAt: data.asDateTime('createdAt'),
       updatedAt: data.asDateTime('updatedAt'),
-      deletedAt: data.asNullableDateTime('deletedAt'),
     );
   }
 
@@ -53,9 +66,14 @@ class UserModel extends TimeStampModel {
       'username': username,
       'email': email,
       'photoUrl': photoUrl,
-      'userTier': userTier.name,
+      'bannerUrl': bannerUrl,
+      'bio': bio,
       'phoneNumber': phoneNum,
-      'isRegistered': isRegistered,
+      'location': location,
+      'userTier': userTier.name,
+      'isProfileComplete': isProfileComplete,
+      'birthDate': birthDate,
+      'lastPopUpShown': lastPopUpShown,
       'lastSeen': FieldValue.serverTimestamp(),
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),

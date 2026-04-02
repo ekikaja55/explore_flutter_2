@@ -35,7 +35,6 @@ class _TodoListPageState extends State<TodoListPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemResponse res;
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: Column(
